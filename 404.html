@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Redirecting...</title>
+    <style>
+        .main {
+            border-style: solid;
+            text-align: center;
+            background-color: #eee;
+            color: #222;
+            border-radius: 10px;
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 20%;
+            right: 20%;
+            transform: translateY(-50%);
+        }
+    </style>
+    <script>
+        /**
+         * Configuration goes here
+         */
+        // Format: https://api.github.com/repos/{owner}/{repo}/issues/
+        const GITHUB_ISSUES_LINK = "https://api.github.com/repos/15x15G/u/issues/";
+        const PATH_SEGMENTS_TO_SKIP = 1;
+        const GITHUB_ISSUES_HTML = "https://github.com/15x15G/u/issues/";
+
+        /**
+         * DO NOT TOUCH ANYTHING BELOW THIS COMMENT UNLESS YOU KNOW WHAT YOU ARE DOING
+         */
+        function isUrl(url) {
+            // Regex from https://stackoverflow.com/a/3809435, with a modification to allow for TLDs of up to 24 characters
+            return /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,24}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)+$/.test(
+                url
+            );
+        }
+
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == variable) { return pair[1]; }
+            }
+            return (false);
+        }
+
+        function redirect() {
+            const location = window.location;
+            const part = location.pathname.split("/");
+            const issueNumber = part[PATH_SEGMENTS_TO_SKIP + 1];
+            const homepage = `${location.protocol}//${location.hostname}${location.port ? ":" + location.port : ""}/${part[PATH_SEGMENTS_TO_SKIP]}`
+
+            const xhr = new XMLHttpRequest();
+
+            const msg = document.querySelector('.msg')
+            const link = document.querySelector('link')
+
+            xhr.onload = function () {
+                try {
+                    const payload = JSON.parse(xhr.response);
+                    const message = payload.message;
+                    const title = payload.title;
+
+                    // Workaround IE 11 lack of support for new URL()
+                    const url = document.createElement("a");
+                    url.setAttribute("href", title);
+
+                    if (message === "Not Found") {
+                        msg.innerHTML = '重定向链接不存在';
+                        link.href = GITHUB_ISSUES_HTML;
+                        link.innerHTML = '猜你想找';
+                    } else if (!title || !isUrl(title)) {
+                        msg.innerHTML = '重定向链接损坏';
+                        link.href = GITHUB_ISSUES_HTML + issueNumber;
+                        link.innerHTML = '猜你想找';
+                    } else if (url.hostname === location.hostname) {
+                        msg.innerHTML = '重定向链接套娃';
+                        link.href = title;
+                        link.innerHTML = '猜你想找';
+                    }
+                    else {
+                        link.href = title;
+                        link.innerHTML = '无反应时点此前往';
+                        location.replace(title);
+                    }
+                } catch (e) {
+                    msg.innerHTML = '网络错误，请刷新页面';
+                }
+            };
+
+            xhr.onerror = function () {
+                msg.innerHTML = '网络错误，请刷新页面';
+                //location.replace(homepage);
+            };
+            xhr.open("GET", GITHUB_ISSUES_LINK + issueNumber);
+            xhr.send();
+        }
+    </script>
+</head>
+
+<body>
+    <div class="main">
+        <p class="msg">重定向中...</p>
+        <a class="link"></p>
+    </div>
+    <script>
+        redirect();
+    </script>
+</body>
+
+</html>
