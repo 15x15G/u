@@ -1,0 +1,14 @@
+name: Issue Close
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+jobs:
+  UserCheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close Issue
+        uses: peter-evans/close-issue@v1
+        with:
+          comment: |
+            自动关闭
