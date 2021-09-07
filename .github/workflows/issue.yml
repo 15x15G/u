@@ -1,14 +1,30 @@
-name: Issue Close
+name: Issue Check
 on:
   issues:
-    types: [opened]
+    types: [opened, edited]
   workflow_dispatch:
 jobs:
   UserCheck:
     runs-on: ubuntu-latest
     steps:
+      - name: Check 
+        id: check-tag
+        run: |
+          regex='^https?://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]\.[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]$'
+          if [[ ${{ github.event.issue.title }} =~ $regex ]]; then
+              echo ::set-output name=match::true
+          else
+              echo ::set-output name=match::false
+          fi
       - name: Close Issue
+        if: steps.check-tag.outputs.match == 'true'
         uses: peter-evans/close-issue@v1
         with:
           comment: |
-            自动关闭
+            URL有效，自动关闭
+      - name: Comment on Issue
+        if: steps.check-tag.outputs.match == 'false'
+        uses: ben-z/actions-comment-on-issue@1.0.2
+        with:
+          message: "不是有效的URL"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
