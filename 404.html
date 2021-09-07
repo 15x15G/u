@@ -80,11 +80,11 @@
                         msg.innerHTML = '重定向链接损坏';
                         link.href = GITHUB_ISSUES_HTML + issueNumber;
                         link.innerHTML = '猜你想找';
-                    } else if (url.hostname === location.hostname) {
+                    } else if (url.href === location.href) {
                         headtitle.innerHTML = '重定向失败';
                         msg.innerHTML = '重定向链接套娃';
-                        link.href = title;
-                        link.innerHTML = '猜你想找';
+                        link.href = GITHUB_ISSUES_HTML + issueNumber;
+                        link.innerHTML = '猜你想套';
                     }
                     else {
                         link.href = title;

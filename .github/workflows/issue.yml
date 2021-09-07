@@ -26,5 +26,5 @@ jobs:
         if: steps.check-tag.outputs.match == 'false'
         uses: ben-z/actions-comment-on-issue@1.0.2
         with:
-          message: "不是有效的URL"
+          message: "不是有效的URL，请修改标题"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
