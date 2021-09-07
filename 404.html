@@ -58,7 +58,7 @@
 
             const msg = document.querySelector('.msg')
             const link = document.querySelector('.link')
-            const title = document.querySelector('title')
+            const headtitle = document.querySelector('title')
 
             xhr.onload = function () {
                 try {
@@ -71,17 +71,17 @@
                     url.setAttribute("href", title);
 
                     if (message === "Not Found") {
-                        title.innerHTML = '重定向失败';
+                        headtitle.innerHTML = '重定向失败';
                         msg.innerHTML = '重定向链接不存在';
                         link.href = GITHUB_ISSUES_HTML;
                         link.innerHTML = '猜你想找';
                     } else if (!title || !isUrl(title)) {
-                        title.innerHTML = '重定向失败';
+                        headtitle.innerHTML = '重定向失败';
                         msg.innerHTML = '重定向链接损坏';
                         link.href = GITHUB_ISSUES_HTML + issueNumber;
                         link.innerHTML = '猜你想找';
                     } else if (url.hostname === location.hostname) {
-                        title.innerHTML = '重定向失败';
+                        headtitle.innerHTML = '重定向失败';
                         msg.innerHTML = '重定向链接套娃';
                         link.href = title;
                         link.innerHTML = '猜你想找';
@@ -92,13 +92,13 @@
                         location.replace(title);
                     }
                 } catch (e) {
-                    title.innerHTML = '重定向失败';
+                    headtitle.innerHTML = '重定向失败';
                     msg.innerHTML = '网络错误，请刷新页面';
                 }
             };
 
             xhr.onerror = function () {
-                title.innerHTML = '重定向失败';
+                headtitle.innerHTML = '重定向失败';
                 msg.innerHTML = '网络错误，请刷新页面';
                 //location.replace(homepage);
             };
