@@ -19,6 +19,10 @@
             transform: translateY(-50%);
         }
     </style>
+    <script type="module">
+        import { Base64 } from 'https://cdn.jsdelivr.net/npm/js-base64@3.7.0/base64.mjs';
+        window.Base64 = Base64;
+    </script>
     <script>
         /**
          * Configuration goes here
@@ -28,14 +32,36 @@
         const PATH_SEGMENTS_TO_SKIP = 1;
         const GITHUB_ISSUES_HTML = "https://github.com/15x15G/u/issues/";
 
-        /**
-         * DO NOT TOUCH ANYTHING BELOW THIS COMMENT UNLESS YOU KNOW WHAT YOU ARE DOING
-         */
         function isUrl(url) {
             // Regex from https://stackoverflow.com/a/3809435, with a modification to allow for TLDs of up to 24 characters
             return /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,24}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)+$/.test(
                 url
             );
+        }
+
+        class BASE {
+            constructor() {
+                this.convert = function (o, r, n) {
+                    this.fromSymbols = "object" == typeof r ? r[0] : this.getsymbols(r), this.toSymbols = "object" == typeof n ? n[0] : this.getsymbols(n), r = this.fromSymbols.length, n = this.toSymbols.length; var i = [0]; for (o = o.split(""); o.length > 0 && i[i.push(this.fromSymbols.indexOf(o.pop())) - 1] >= 0;)
+                        ; var h = i.shift() + i[i.length - 1] >= 0 ? i : null; if (null === h)
+                        return null; for (var e = 0, l = (i = [], [1]); e < h.length; e++)
+                        i = t(i, s(h[e], l, n), n), l = s(r, l, n); e = i.length - 1; for (var m = ""; e >= 0; m += this.toSymbols[i[e--]])
+                        ; return 0 == m.length ? this.toSymbols[0] : m;
+                }, this.symbols = { 32: function () { return this.base32hex; }, 36: ["[0-9][A-Z]"], 45: function () { return this["qr-alnum"]; }, 58: function () { return this.Bitcoin; }, 64: ["[A-Z][a-z][0-9]+/"], 85: function () { return this["RFC 1924"]; }, 91: ['[A-Z][a-z][0-9]!#$%&()*+,./:;<=>?@[]^_`{|}~"'], 94: ["[!-~]"], geohash: ["[0-9][b-h]jkmn[p-z]"], "RFC 4648": ["[A-Z][2-7]"], base32hex: ["[0-9][A-V]"], "qr-alnum": ["[0-9][A-Z] $%*+-./:"], Bitcoin: ["[1-9][A-H]JKLMN[P-Z][a-k][m-z]"], "RFC 1924": ["[0-9][A-Z][a-z]!#$%&()*+-;<=>?@^_`{|}~"] }, this.getsymbols = function (t) { return void 0 === this.symbols[t] && (this.symbols[t] = t < 95 ? this.rng(t < 64 ? "[0-9][A-Z][a-z]+" : "[A-Z][a-z][0-9][!-/][:-@][[-`][{-~]").substring(0, t) : this.rng("[\0-ÿ]").substring(256 - t, 256)), "function" == typeof this.symbols[t] && (this.symbols[t] = this.symbols[t]()), "object" == typeof this.symbols[t] && (this.symbols[t] = this.rng(this.symbols[t][0])), this.symbols[t]; }, this.rng = function (t) { var s = t.match(/\[.-.\]/); return null == s ? t : (s = [s[0].charCodeAt(1), s[0].charCodeAt(3)], this.rng(t.replace(RegExp("\\[(\\x" + ("0" + s[0].toString(16)).slice(-2) + "-\\x" + s[1].toString(16) + ")\\]", "g"), String.fromCharCode(..." ".repeat(s[1] - s[0] + 1).split("").map((t, o) => o + s[0]))))); }, this.selftest = function () {
+                    var t = {}; for (var s in this.symbols)
+                        t[s] = this.getsymbols(s).length; for (s = 2; s <= 95; s++)
+                        t[s] = this.getsymbols(s).length; t[256] = 256; var o = ""; t = Object.keys(t).sort(function (s, o) { return t[s] - t[o]; }); for (var r in t) {
+                            s = { fromBase: 10, toBASE: t[r] }; var n = this.convert("", 10, s.toBASE); o += "\r\noBASE.convert(n, '" + s.fromBase + "', '" + s.toBASE + "') [" + this.fromSymbols + "] [" + this.toSymbols + "]\r\n"; for (var i = 0; i < this.fromSymbols.length + 2; i++)
+                                n = this.convert(String(i), s.fromBase, s.toBASE), o += i + (String(i) == this.convert(n, s.toBASE, s.fromBase) ? ">" : "?") + "[" + n + "] ";
+                        } return o;
+                }; var t = function (t, s, o) {
+                    for (var r = Math.max(t.length, s.length), n = e = 0, i = []; e < r || n; n = Math.floor(h / o))
+                        var h = n + (e < t.length ? t[e] : 0) + (e < s.length ? s[e] : 0), e = i.push(h % o); return i;
+                }, s = function (s, o, r) {
+                    for (var n = s < 0 ? null : []; s > 0; s >>= 1)
+                        1 & s && (n = t(n, o, r)), o = t(o, o, r); return n;
+                };
+            }
         }
 
         function getQueryVariable(variable) {
@@ -48,7 +74,59 @@
             return (false);
         }
 
-        function redirect() {
+
+        function check() {
+            const part = window.location.pathname.split("/").filter(x => x != '');
+            const lastpart = (part[part.length - 1]);
+            if (lastpart.search('404') > -1) {
+                document.querySelector('.msg').innerHTML = 404;
+                document.querySelector('title').innerHTML = 404;
+            }
+            else if (isNaN(Number(lastpart))) {
+                redirect_zero(lastpart.substring(0, lastpart.length - 1));
+            }
+            else {
+                redirect_issue();
+            }
+        }
+
+        function redirect_zero(str) {
+            const oBASE = new BASE();
+            let key = ''; for (let i = 0; i < 1024; i++) { key += String.fromCodePoint(i + 917504)[1]; }
+            const z1024 = oBASE.rng(key);
+
+            const msg = document.querySelector('.msg')
+            const link = document.querySelector('.link')
+            const headtitle = document.querySelector('title')
+            try {
+                if (str.length == 0) { throw 0; }
+                let fin = '';
+                for (let s = 0; s < str.length; s++) {
+                    if (s % 2 === 1)
+                        fin += str[s];
+                }
+                fin = oBASE.convert(fin, [z1024], 64);
+                fin = (Base64.decode(fin));
+
+
+                if (isUrl(fin)) {
+                    link.href = title;
+                    link.innerHTML = '正在前往...';
+                    window.location.replace(title);
+
+                } else {
+                    headtitle.innerHTML = '重定向失败';
+                    msg.innerHTML = '重定向链接不存在';
+                    link.href = '';
+                    link.innerHTML = fin;
+                }
+            } catch (e) {
+                headtitle.innerHTML = '重定向失败';
+                msg.innerHTML = '重定向链接损坏';
+            }
+        }
+
+        function redirect_issue() {
             const location = window.location;
             const part = location.pathname.split("/");
             const issueNumber = part[PATH_SEGMENTS_TO_SKIP + 1];
@@ -114,7 +192,7 @@
         <a class="link"></p>
     </div>
     <script>
-        redirect();
+        check();
     </script>
 </body>
 
