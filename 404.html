@@ -100,6 +100,7 @@
             const headtitle = document.querySelector('title')
             try {
                 if (str.length == 0) { throw 0; }
+                str = decodeURIComponent(str);
                 let fin = '';
                 for (let s = 0; s < str.length; s++) {
                     if (s % 2 === 1)
