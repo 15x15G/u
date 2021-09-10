@@ -27,7 +27,13 @@
             font-weight: 100 400;
         }
     </style>
+</head>
 
+<body>
+    <div class="main">
+        <p class="msg">重定向中...</p>
+        <a class="link"></p>
+    </div>
     <script type="module">
         import { Base64 } from 'https://cdn.jsdelivr.net/npm/js-base64@3.7.0/base64.mjs';
 
@@ -188,16 +194,6 @@
             xhr.send();
         }
 
-        window.check = check;
-    </script>
-</head>
-
-<body>
-    <div class="main">
-        <p class="msg">重定向中...</p>
-        <a class="link"></p>
-    </div>
-    <script>
         check();
     </script>
 </body>

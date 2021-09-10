@@ -93,7 +93,7 @@
 
             const str = document.querySelector('#longurl').value;
             const loc = window.location;
-            const baseurl = `${loc.protocol}//${loc.hostname}${loc.port ? ":" + loc.port : ""}${loc.pathname}/`;
+            const baseurl = `${loc.protocol}//${loc.hostname}${loc.port ? ":" + loc.port : ""}/${loc.pathname.split('/')[1]}/`;
 
 
             try {
