@@ -88,8 +88,12 @@
         function createurl() {
 
             const oBASE = new BASE();
-            let key = ''; for (let i = 0; i < 1024; i++) { key += String.fromCodePoint(i + 917504)[1]; }
-            const z1024 = oBASE.rng(key);
+            //'变体选择器(16) U+FE00-U+FE0F'
+            //'变体选择器补充(240) U+E0100-U+E01EF'
+            let key = '';
+            for (let i = 0; i < 16; i++) { key += String.fromCodePoint(i + 0X00FE00)[1]; }
+            for (let i = 0; i < 240; i++) { key += String.fromCodePoint(i + 0X0E0100)[1]; }
+            const z256 = oBASE.rng(key);
 
             const str = document.querySelector('#longurl').value;
             const loc = window.location;
@@ -98,7 +102,7 @@
 
             try {
                 console.log(Base64.encodeURI(str).length)
-                const b1024 = oBASE.convert(Base64.encodeURI(str), 64, [z1024]);
+                const b1024 = oBASE.convert(Base64.encodeURI(str), 64, [z256]);
                 console.log(b1024.length)
                 const f = String.fromCodePoint(917504)[0];
                 let fin = ''

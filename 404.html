@@ -101,8 +101,10 @@
 
         function redirect_zero(str) {
             const oBASE = new BASE();
-            let key = ''; for (let i = 0; i < 1024; i++) { key += String.fromCodePoint(i + 917504)[1]; }
-            const z1024 = oBASE.rng(key);
+            let key = '';
+            for (let i = 0; i < 16; i++) { key += String.fromCodePoint(i + 0X00FE00)[1]; }
+            for (let i = 0; i < 240; i++) { key += String.fromCodePoint(i + 0X0E0100)[1]; }
+            const z256 = oBASE.rng(key);
 
             const msg = document.querySelector('.msg')
             const link = document.querySelector('.link')
@@ -115,7 +117,7 @@
                     if (s % 2 === 1)
                         fin += str[s];
                 }
-                fin = oBASE.convert(fin, [z1024], 64);
+                fin = oBASE.convert(fin, [z256], 64);
                 fin = (Base64.decode(fin));
 
 
