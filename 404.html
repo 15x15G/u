@@ -102,7 +102,6 @@
         function redirect_zero(str) {
             const oBASE = new BASE();
             let key = '';
-            for (let i = 0; i < 16; i++) { key += String.fromCodePoint(i + 0X00FE00); }
             for (let i = 0; i < 240; i++) { key += String.fromCodePoint(i + 0X0E0100)[1]; }
             const z256 = oBASE.rng(key);
 
