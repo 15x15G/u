@@ -18,15 +18,19 @@
             right: 20%;
             transform: translateY(-50%);
         }
+
+        @font-face {
+            font-family: 'FFXIV';
+            src: url('https://cdn.jsdelivr.net/gh/15x15G/15x15G.github.io@gh-pages/fonts/FFXIV_Lodestone_SSF.ttf') format('truetype'),
+                url('https://cdn.jsdelivr.net/gh/15x15G/15x15G.github.io@gh-pages/fonts/FFXIV_Lodestone_SSF.woff') format('woff');
+            unicode-range: U+E020-E0DB;
+            font-weight: 100 400;
+        }
     </style>
+
     <script type="module">
         import { Base64 } from 'https://cdn.jsdelivr.net/npm/js-base64@3.7.0/base64.mjs';
-        window.Base64 = Base64;
-    </script>
-    <script>
-        /**
-         * Configuration goes here
-         */
+
         // Format: https://api.github.com/repos/{owner}/{repo}/issues/
         const GITHUB_ISSUES_LINK = "https://api.github.com/repos/15x15G/u/issues/";
         const PATH_SEGMENTS_TO_SKIP = 1;
@@ -73,7 +77,6 @@
             }
             return (false);
         }
-
 
         function check() {
             const part = window.location.pathname.split("/").filter(x => x != '');
@@ -184,6 +187,8 @@
             xhr.open("GET", GITHUB_ISSUES_LINK + issueNumber);
             xhr.send();
         }
+
+        window.check = check;
     </script>
 </head>
 

@@ -5,10 +5,115 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
     <title>404</title>
+    <script type="module">
+        import { Base64 } from 'https://cdn.jsdelivr.net/npm/js-base64@3.7.0/base64.mjs';
+        window.Base64 = Base64;
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cooltipz-css@1.6/cooltipz.css" />
+
+    <style>
+        @font-face {
+            font-family: 'FFXIV';
+            src: url('https://cdn.jsdelivr.net/gh/15x15G/15x15G.github.io@gh-pages/fonts/FFXIV_Lodestone_SSF.ttf') format('truetype'),
+                url('https://cdn.jsdelivr.net/gh/15x15G/15x15G.github.io@gh-pages/fonts/FFXIV_Lodestone_SSF.woff') format('woff');
+            unicode-range: U+E020-E0DB;
+            font-weight: 100 400;
+        }
+
+        input {
+            font-family: 'FFXIV', Arial, Helvetica, sans-serif;
+        }
+    </style>
 </head>
 
 <body>
-    404：这不是重定向页
+    <input id='longurl' class='ffxiv'></textarea>
+
+    <button type="button" onclick='createurl()'>生成分享链接</button>
+    <br>
+    <input id='urlbox' type="text"></input>
+    <button type="button" data-clipboard-target='#urlbox'>复制</button>
+    <script>
+        class BASE {
+            constructor() {
+                this.convert = function (o, r, n) {
+                    this.fromSymbols = "object" == typeof r ? r[0] : this.getsymbols(r), this.toSymbols = "object" == typeof n ? n[0] : this.getsymbols(n), r = this.fromSymbols.length, n = this.toSymbols.length; var i = [0]; for (o = o.split(""); o.length > 0 && i[i.push(this.fromSymbols.indexOf(o.pop())) - 1] >= 0;)
+                        ; var h = i.shift() + i[i.length - 1] >= 0 ? i : null; if (null === h)
+                        return null; for (var e = 0, l = (i = [], [1]); e < h.length; e++)
+                        i = t(i, s(h[e], l, n), n), l = s(r, l, n); e = i.length - 1; for (var m = ""; e >= 0; m += this.toSymbols[i[e--]])
+                        ; return 0 == m.length ? this.toSymbols[0] : m;
+                }, this.symbols = { 32: function () { return this.base32hex; }, 36: ["[0-9][A-Z]"], 45: function () { return this["qr-alnum"]; }, 58: function () { return this.Bitcoin; }, 64: ["[A-Z][a-z][0-9]+/"], 85: function () { return this["RFC 1924"]; }, 91: ['[A-Z][a-z][0-9]!#$%&()*+,./:;<=>?@[]^_`{|}~"'], 94: ["[!-~]"], geohash: ["[0-9][b-h]jkmn[p-z]"], "RFC 4648": ["[A-Z][2-7]"], base32hex: ["[0-9][A-V]"], "qr-alnum": ["[0-9][A-Z] $%*+-./:"], Bitcoin: ["[1-9][A-H]JKLMN[P-Z][a-k][m-z]"], "RFC 1924": ["[0-9][A-Z][a-z]!#$%&()*+-;<=>?@^_`{|}~"] }, this.getsymbols = function (t) { return void 0 === this.symbols[t] && (this.symbols[t] = t < 95 ? this.rng(t < 64 ? "[0-9][A-Z][a-z]+" : "[A-Z][a-z][0-9][!-/][:-@][[-`][{-~]").substring(0, t) : this.rng("[\0-ÿ]").substring(256 - t, 256)), "function" == typeof this.symbols[t] && (this.symbols[t] = this.symbols[t]()), "object" == typeof this.symbols[t] && (this.symbols[t] = this.rng(this.symbols[t][0])), this.symbols[t]; }, this.rng = function (t) { var s = t.match(/\[.-.\]/); return null == s ? t : (s = [s[0].charCodeAt(1), s[0].charCodeAt(3)], this.rng(t.replace(RegExp("\\[(\\x" + ("0" + s[0].toString(16)).slice(-2) + "-\\x" + s[1].toString(16) + ")\\]", "g"), String.fromCharCode(..." ".repeat(s[1] - s[0] + 1).split("").map((t, o) => o + s[0]))))); }, this.selftest = function () {
+                    var t = {}; for (var s in this.symbols)
+                        t[s] = this.getsymbols(s).length; for (s = 2; s <= 95; s++)
+                        t[s] = this.getsymbols(s).length; t[256] = 256; var o = ""; t = Object.keys(t).sort(function (s, o) { return t[s] - t[o]; }); for (var r in t) {
+                            s = { fromBase: 10, toBASE: t[r] }; var n = this.convert("", 10, s.toBASE); o += "\r\noBASE.convert(n, '" + s.fromBase + "', '" + s.toBASE + "') [" + this.fromSymbols + "] [" + this.toSymbols + "]\r\n"; for (var i = 0; i < this.fromSymbols.length + 2; i++)
+                                n = this.convert(String(i), s.fromBase, s.toBASE), o += i + (String(i) == this.convert(n, s.toBASE, s.fromBase) ? ">" : "?") + "[" + n + "] ";
+                        } return o;
+                }; var t = function (t, s, o) {
+                    for (var r = Math.max(t.length, s.length), n = e = 0, i = []; e < r || n; n = Math.floor(h / o))
+                        var h = n + (e < t.length ? t[e] : 0) + (e < s.length ? s[e] : 0), e = i.push(h % o); return i;
+                }, s = function (s, o, r) {
+                    for (var n = s < 0 ? null : []; s > 0; s >>= 1)
+                        1 & s && (n = t(n, o, r)), o = t(o, o, r); return n;
+                };
+            }
+        }
+
+        function initcopy() {
+            // 初始化tooltip
+            const btns = document.querySelectorAll('[data-clipboard-target]');
+            function clearTooltip(e) {
+                e.currentTarget.setAttribute('class', 'btn');
+                e.currentTarget.removeAttribute('aria-label');
+            }
+            function showTooltip(elem, msg) {
+                elem.setAttribute('class', 'btn cooltipz--right');
+                elem.setAttribute('aria-label', msg);
+            }
+            for (let i = 0; i < btns.length; i++) {
+                btns[i].addEventListener('mouseleave', clearTooltip);
+                btns[i].addEventListener('blur', clearTooltip);
+            }
+            // 初始化clipborajs
+            const clipboardDemos = new ClipboardJS('[data-clipboard-target]');
+            clipboardDemos.on('success', function (e) {
+                e.clearSelection();
+                showTooltip(e.trigger, '复制成功');
+            });
+            clipboardDemos.on('error', function (e) {
+                showTooltip(e.trigger, '设备不支持一键复制');
+            });
+        }
+        function createurl() {
+
+            const oBASE = new BASE();
+            let key = ''; for (let i = 0; i < 1024; i++) { key += String.fromCodePoint(i + 917504)[1]; }
+            const z1024 = oBASE.rng(key);
+
+            const str = document.querySelector('#longurl').value;
+            const loc = window.location;
+            const baseurl = `${loc.protocol}//${loc.hostname}${loc.port ? ":" + loc.port : ""}${loc.pathname}/`;
+
+
+            try {
+                console.log(Base64.encodeURI(str).length)
+                const b1024 = oBASE.convert(Base64.encodeURI(str), 64, [z1024]);
+                console.log(b1024.length)
+                const f = String.fromCodePoint(917504)[0];
+                let fin = ''
+                for (let s = 0; s < b1024.length; s++) {
+                    fin += f;
+                    fin += b1024[s];
+                }
+                fin += 'z';
+                document.querySelector('#urlbox').value = baseurl + fin;
+            } catch (e) {
+                document.querySelector('#urlbox').value = '生成失败';
+            }
+        }
+        initcopy();
+    </script>
 </body>
 
 </html>
