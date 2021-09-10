@@ -96,7 +96,7 @@
 
             const str = document.querySelector('#longurl').value;
             const loc = window.location;
-            const baseurl = `${loc.protocol}//${loc.hostname}${loc.port ? ":" + loc.port : ""}/${loc.pathname.split('/')[1]}/`;
+            const baseurl = `${loc.protocol}//${loc.hostname}${loc.port ? ":" + loc.port : ""}/${loc.pathname.split('/')[1]}/g`;
 
 
             try {
@@ -109,7 +109,7 @@
                     fin += f;
                     fin += b1024[s];
                 }
-                fin += 'z';
+                fin += 'o';
                 document.querySelector('#urlbox').value = baseurl + fin;
             } catch (e) {
                 document.querySelector('#urlbox').value = '生成失败';

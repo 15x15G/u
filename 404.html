@@ -92,7 +92,7 @@
                 document.querySelector('title').innerHTML = 404;
             }
             else if (isNaN(Number(lastpart))) {
-                redirect_zero(lastpart.substring(0, lastpart.length - 1));
+                redirect_zero(lastpart.substring(1, lastpart.length - 1));
             }
             else {
                 redirect_issue();
