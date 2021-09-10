@@ -120,14 +120,14 @@
 
 
                 if (isUrl(fin)) {
-                    link.href = title;
+                    link.href = fin;
                     link.innerHTML = '正在前往...';
-                    window.location.replace(title);
+                    window.location.replace(fin);
 
                 } else {
                     headtitle.innerHTML = '重定向失败';
-                    msg.innerHTML = '重定向链接不存在';
-                    link.href = '';
+                    msg.innerHTML = '重定向内容：';
+                    link.href = "javascript:void(0);";
                     link.innerHTML = fin;
                 }
             } catch (e) {
