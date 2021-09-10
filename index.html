@@ -91,7 +91,7 @@
             //'变体选择器(16) U+FE00-U+FE0F'
             //'变体选择器补充(240) U+E0100-U+E01EF'
             let key = '';
-            for (let i = 0; i < 16; i++) { key += String.fromCodePoint(i + 0X00FE00)[1]; }
+            for (let i = 0; i < 16; i++) { key += String.fromCodePoint(i + 0X00FE00); }
             for (let i = 0; i < 240; i++) { key += String.fromCodePoint(i + 0X0E0100)[1]; }
             const z256 = oBASE.rng(key);
 
